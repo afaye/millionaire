@@ -30,14 +30,14 @@ function displayHighScores() {
   highScoresHTML = '<tr><th>Position</th><th>Name</th><th>Winnings</th><th>Lifelines</th><th>Spare Time</th></tr>';
   for (var i=0; i<5; i++) {
     currentEntry = highScores.traditional[i];
-    highScoresHTML += '<tr><td>'+(i+1)+'</td><td>'+currentEntry[0]+'</td><td>£'+currentEntry[1]+'</td><td>'+currentEntry[2]+'</td><td>'+time(currentEntry[3])+'</td></tr>';
+    highScoresHTML += '<tr><td>'+(i+1)+'</td><td>'+currentEntry[0]+'</td><td>€'+currentEntry[1]+'</td><td>'+currentEntry[2]+'</td><td>'+time(currentEntry[3])+'</td></tr>';
   }
   $('#trad-high-scores').html(highScoresHTML);
   // print high scores for modern version
   highScoresHTML = '<tr><th>Position</th><th>Name</th><th>Winnings</th><th>Lifelines</th><th>Spare Time</th></tr>';
   for (var i=0; i<5; i++) {
     currentEntry = highScores.modern[i];
-    highScoresHTML += '<tr><td>'+(i+1)+'</td><td>'+currentEntry[0]+'</td><td>£'+currentEntry[1]+'</td><td>'+currentEntry[2]+'</td><td>'+time(currentEntry[3])+'</td></tr>';
+    highScoresHTML += '<tr><td>'+(i+1)+'</td><td>'+currentEntry[0]+'</td><td>€'+currentEntry[1]+'</td><td>'+currentEntry[2]+'</td><td>'+time(currentEntry[3])+'</td></tr>';
   }
   $('#modn-high-scores').html(highScoresHTML);
 }
@@ -57,7 +57,7 @@ function time( seconds ) {
 function newHighScore() {
   stopTimer();
   // prepare and display message
-  if (currentMessage == 'winner') $('#message-text').html('You won £1MILLION<br/><br/>Enter your name:');
+  if (currentMessage == 'winner') $('#message-text').html('Vous avez gagné 1 MILLION €<br/><br/>Entrez votre nom :');
   else $('#message-text').html('New high score!<br/>Enter your name:');
   currentMessage = 'newHighScore';
   // prompt user to input their name
@@ -86,7 +86,7 @@ function updateHighScores() {
 }
 
 // event handler for name input
-$('input').keydown(function(e) { 
+$('input').keydown(function(e) {
   char = e.which;
   // allow <backspace>
   if (char != 8) e.preventDefault();

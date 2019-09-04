@@ -84,7 +84,7 @@ footer {
 }
 
 #home, #high-scores, #how-to-play {
-  background: url(images/Millionaire-bg.jpg) no-repeat center center fixed; 
+  background: url(images/Millionaire-bg.jpg) no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -125,7 +125,7 @@ footer {
 #money-ladder .graphics-layer {
   border-left: 5px solid;
   -webkit-border-image: -webkit-linear-gradient(left,gray,silver,gray) 1 100%;
-  -moz-border-image: -moz-linear-gradient(left,gray,silver,gray) 1 100%;  
+  -moz-border-image: -moz-linear-gradient(left,gray,silver,gray) 1 100%;
   -o-border-image: -o-linear-gradient(left,gray,silver,gray) 1 100%;
   border-image: linear-gradient(to right,gray,silver,gray) 1 100%;
   background-image: radial-gradient(rgba(0,0,0,.6) 20%,rgba(0,0,0,.8));
@@ -488,11 +488,11 @@ footer {
   visibility: hidden;
 }
 #final {
-  width: 25vh;
+  width: 30vh;
   height: 6vh;
   top: 53vh;
   left: 69vw;
-  margin-left: -25vh;
+  margin-left: -30vh;
   font-size: 4vh;
   padding: .7vh 0;
 }
@@ -601,7 +601,8 @@ footer {
   height: 25%;
   margin: 5vh 13%;
   justify-content: center;
-  line-height: 20px;
+  /*line-height: 20px;*/
+  font-size: 5vh;
 }
 #question-bg, .answer-bg {
   border: 30px double darkblue;
@@ -632,6 +633,7 @@ footer {
   top: 20%;
   left: 5%;
   background-color: black;
+  font-size: 3vh;
 }
 u {
   text-decoration: none;

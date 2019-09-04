@@ -17,7 +17,7 @@ function startLevel1Music() {
   }
 }
 // if intro video is not skipped, the music starts automatically
-setTimeout(startLevel1Music,20400);
+setTimeout(startLevel1Music,33000);
 
 // event handlers for hovering over 'buttons' on the home menu
 $('#home .button').mouseover(function(){

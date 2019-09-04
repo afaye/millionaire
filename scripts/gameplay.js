@@ -1,4 +1,14 @@
-var questionNum, timeToAnswer, selected = '', winnings, timeSaved, version, money, ladderHTML, checking, category = 'Any';
+var questionNum,
+    timeToAnswer,
+    selected = '',
+    winnings,
+    timeSaved,
+    version,
+    money,
+    ladderHTML,
+    checking,
+    category = 'Any'
+;
 
 var currentLevelMusic = level1Music,
     currentLevel = 1,
@@ -8,7 +18,7 @@ var currentLevelMusic = level1Music,
     rightAnswerAudio = new Audio('audio/right.mp3');
 
 /*
-The same element is used to display every message to the user: 
+The same element is used to display every message to the user:
   'are you ready for the next question?'
   'you got that correct'
   'you got that wrong'
@@ -48,13 +58,13 @@ function reset( whichVersion ) {
 
   // choose the correct money ladder for the game version selected:
   // traditional version (15 questions)...
-  if (version == 'traditional') money = ['0','100','200','300','500','1,000','2,000','4,000','8,000','16,000','32,000','64,000','125,000','250,000','500,000','1 MILLION'];
+  if (version == 'traditional') money = ['Rien', 'Cadeau 1 (1/5)','Cadeau 1 (2/5)','Cadeau 1 (3/5)','Cadeau 1 (4/5)','Cadeau 1','2,000','4,000','8,000','16,000','32,000','64,000','125,000','250,000','500,000','1 MILLION'];
   // ...or modern version (12 question)...
   if (version == "modern") money = ['0','500','1,000','2,000','5,000','10,000','20,000','50,000','75,000','150,000','250,000','500,000','1 MILLION'];
   // ...then write the values to the money ladder (reverse-ordered list)
   ladderHTML = ''
   for (var i=money.length-1; i; i--)
-    ladderHTML += "<li id='q"+i+"'><span>&diams;</span> &nbsp; &pound;"+money[i]+'<div></div></li>';
+    ladderHTML += "<li id='q"+i+"'><span>&diams;</span> &nbsp; "+money[i]+'<div></div></li>';
   $('#ladder').html('<ol reversed>'+ladderHTML+'</ol>');
   // make 'milestone' questions a different colour
   if (version == 'traditional') $('#q5,#q10,#q15').css('color','#FED');
@@ -72,10 +82,10 @@ function areYouReady( stage ) {
 
   // prepare message panel ('are you ready?' y/n) but don't display yet
   currentMessage = 'ready?';
-  if (stage == 1) $('#message-text').html("Ready to begin a new game?<br/><br/>Hit 'Next Question' to start the timer for Question 1");
-  else $('#message-text').html("Correct!<br/><br/>When you're ready, click 'Next Question' to go to question "+stage);
-  $('#quit').html('Quit Game').css('visibility','inherit');
-  $('#next-question').html('Next Question').css('visibility','inherit');
+  if (stage == 1) $('#message-text').html("Prêt à commencer ?<br/>");
+  else $('#message-text').html("Correct !<br/><br/>Quand vous serez prêt, cliquez sur 'Question suivante'");
+  $('#quit').html('Quitter la partie').css('visibility','inherit');
+  $('#next-question').html('Prochaine question').css('visibility','inherit');
   $('#confirm').css('visibility','hidden');
   $('input').css('visibility','hidden');
 
@@ -205,10 +215,10 @@ function questionFailure() {
   // check for new high score
   if (highScore()) { newHighScore(); return; }
   // otherwise prepare & display 'you go home with £X' message
-  $('#message-text').html('Game over!<br/><br/>You go home with £'+winnings);
+  $('#message-text').html('Perdu !<br/><br/>Vous repartez avec '+winnings+'&nbsp;€');
   $('#quit').css('visibility','hidden');
   $('#next-question').css('visibility','hidden');
-  $('#confirm').html('Back to Menu').css('visibility','inherit');
+  $('#confirm').html('Revenir au menu').css('visibility','inherit');
   $('#message-board').css('visibility','visible');
 }
 
