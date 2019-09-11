@@ -9,7 +9,7 @@ var ctx0 = $('#celebration')[0].getContext('2d');
 function celebrate() {
   // change timer appearance to flashing celebration lights
   stopTimer();
-  $('#timer').html('£M');
+  $('#timerwin').html('Bravo !');
   for (var i=0; i<lights.length; i++) {
     lights[i].style.animationDelay = -i/4 + 's';
     lights[i].className = 'light flashing';

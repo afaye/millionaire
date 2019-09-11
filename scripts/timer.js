@@ -52,8 +52,8 @@ function startTimer( t ) {
   timerAudio.currentTime = 0;
   timerAudio.play();
   // background music fades to quiet when timer is running
-  if (currentLevel == 1) currentLevelMusic.volume = Math.min(currentLevelMusic.volume,.1);
-  else currentLevelMusic.volume = Math.min(currentLevelMusic.volume,.3);
+  if (currentLevel == 1) currentLevelMusic.volume = Math.min(currentLevelMusic.volume,1);
+  else currentLevelMusic.volume = Math.min(currentLevelMusic.volume,1);
 }
 
 function stopTimer() {

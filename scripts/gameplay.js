@@ -12,11 +12,11 @@ var questionNum,
 
 var currentLevelMusic = level1Music,
     currentLevel = 1,
-    level2Music = new Audio('audio/level-2.mp3'),
-    level3Music = new Audio('audio/level-3.mp3'),
-    wrongAnswerAudio = new Audio('audio/wrong.mp3'),
+    level2Music = new Audio('audio/level-2.mp3');
+    level3Music = new Audio('audio/level-3.mp3');
+    wrongAnswerAudio = new Audio('audio/wrong.mp3');
     rightAnswerAudio = new Audio('audio/right.mp3');
-
+    suspenseAudio = new Audio('audio/suspense.mp3');
 /*
 The same element is used to display every message to the user:
   'are you ready for the next question?'
@@ -58,7 +58,7 @@ function reset( whichVersion ) {
 
   // choose the correct money ladder for the game version selected:
   // traditional version (15 questions)...
-  if (version == 'traditional') money = ['Rien', 'Cadeau 1 (1/5)','Cadeau 1 (2/5)','Cadeau 1 (3/5)','Cadeau 1 (4/5)','Cadeau 1','2,000','4,000','8,000','16,000','32,000','64,000','125,000','250,000','500,000','1 MILLION'];
+  if (version == 'traditional') money = ['Rien', '10 €c','100 €c','200 €c','500 €c','Cadeau 1','1 000 €c','2 000 €c','5 000 €c','10 000 €c','Cadeau 2','15 000 €c','20 000 €c','30 000 €c','50 000 €c','LA CAGNOTTE'];
   // ...or modern version (12 question)...
   if (version == "modern") money = ['0','500','1,000','2,000','5,000','10,000','20,000','50,000','75,000','150,000','250,000','500,000','1 MILLION'];
   // ...then write the values to the money ladder (reverse-ordered list)
@@ -133,7 +133,7 @@ function readyQuestion( k ) {
     timeToAnswer = (k<3)? 15 : (k<8)? 30 : 60;
     (k<5)? getQuestion('easy') : (k<9)? getQuestion('medium') : getQuestion('hard');
   } else {
-    timeToAnswer = 60;
+    timeToAnswer = 600;
     (k<6)? getQuestion('easy') : (k<11)? getQuestion('medium') : getQuestion('hard');
   }
 }
@@ -145,12 +145,12 @@ function confirmLifeline( name ) {
   currentMessage = name;
   $('#confirm').html('Ok').css('visibility','hidden');
   $('#quit').html('Ok').css('visibility','inherit');
-  $('#next-question').html('Not now').css('visibility','inherit');
+  $('#next-question').html('Pas maintenant').css('visibility','inherit');
   switch(name) {
-    case '5050': $('#message-text').html('Use the 50-50 lifeline?<br/>This will remove two incorrect answers'); break;
-    case 'paf': $('#message-text').html('Phone a friend?<br/>They may be able to help with the question'); break;
-    case 'ata': $('#message-text').html('Ask the audience?<br/>You will be shown how many would choose each answer'); break;
-    case 'switch': $('#message-text').html('Use the Switch lifeline?<br/>The question will be replaced by a new one'); break;
+    case '5050': $('#message-text').html('Voulez-vous utiliser le moat/moat ?<br/>Deux réponses fausses seront retirées'); break;
+    case 'paf': $('#message-text').html('Voulez-vous appeler un ami ?'); break;
+    case 'ata': $('#message-text').html('Voulez-vous l\'avis du public ?'); break;
+    case 'switch': $('#message-text').html('Voulez vous l\'avis de l\'animateur ?'); break;
     case 'help': $('#message-text').html('You can use each lifeline only once per game<br/><br/>Click on the icons to find out what they do');
       $('#confirm').css('visibility','inherit');
       $('#quit').css('visibility','hidden');
@@ -169,10 +169,12 @@ function finalAnswer() {
   $('#'+correctAnswer).attr('class','correct');
   if (selected == correctAnswer) {
     // play soundbite
+    stopsuspense();
     rightAnswerAudio.play();
     setTimeout(questionSuccess,500);
   } else {
     // play soundbite
+    stopsuspense();
     wrongAnswerAudio.play();
     setTimeout(questionFailure,500);
   }
@@ -232,7 +234,7 @@ function millionaire() {
   celebrate();
   // show 3s of unobstructed confetti before displaying congrats message
   currentMessage = 'winner';
-  setTimeout(newHighScore,3000);
+  setTimeout(newHighScore,0);
 }
 
 
@@ -259,7 +261,23 @@ function startLevel3Music() {
   currentLevel = 3;
 }
 
+function stopLevel1Music() {
+  level1Music.volume = 0;
+}
+function stopLevel2Music() {
+  level2Music.volume = 0;
+}
+function stopLevel3Music() {
+  level3Music.volume = 0;
+}
 
+function suspense() {
+  suspenseAudio.play();
+}
+
+function stopsuspense() {
+  suspenseAudio.volume = 0;
+}
 // event handlers for message panel 'buttons'
 //
 // 'quit' deals with confirming lifeline use, quiting game
@@ -280,9 +298,9 @@ $('#quit').click(function(){
 $('#next-question').click(function(){
   if (currentMessage == 'ready?') {
     // in modern version, a new lifeline is introduced after question 7
-    if (version == 'modern' && questionNum == 8) {
+    if (version == 'traditional' && questionNum == 8) {
       // the user is shown an information panel explaining this:
-      $('#message-text').html("New lifeline unlocked!<br/><br/>You can now use the 'Switch' lifeline to change a question");
+      $('#message-text').html("Vous venez de remporter un nouveau joker !<br/><br/>Vous pouvez désormais demander l'avis de l'animateur");
       $('#quit').css('visibility','hidden');
       $('#next-question').css('visibility','hidden');
       $('#confirm').html('Ok').css('visibility','inherit');
@@ -326,7 +344,9 @@ $('.answer-text').mouseover(function(){
   $(this).parent().attr('class','chosen');
   selected = $(this).parent().attr('id');
   $('#final').attr('class','active');
-});
+  suspenseAudio.play();
+
+})
 
 
 // final answer 'button', for locking in current choice

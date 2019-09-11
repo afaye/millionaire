@@ -57,13 +57,13 @@ function time( seconds ) {
 function newHighScore() {
   stopTimer();
   // prepare and display message
-  if (currentMessage == 'winner') $('#message-text').html('Vous avez gagné 1 MILLION €<br/><br/>Entrez votre nom :');
-  else $('#message-text').html('New high score!<br/>Enter your name:');
+  if (currentMessage == 'winner') $('#message-text').html('Vous avez gagné la cagnotte !<br/>');
+  else $('#message-text').html('Nouveau record !<br/>');
   currentMessage = 'newHighScore';
   // prompt user to input their name
-  $('input').val('').css('visibility','visible');
+  $('input').val('').css('visibility','hidden');
   // confirm button initially inactive until name is typed
-  $('#confirm').html('Done').attr('class','inactive').css('visibility','inherit');
+  $('#confirm').html('Fin').attr('class','inactive').css('visibility','inherit');
   $('#quit').css('visibility','hidden');
   $('#next-question').css('visibility','hidden');
   $('#message-board').css('visibility','visible');
