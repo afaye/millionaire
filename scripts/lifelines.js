@@ -60,7 +60,7 @@ function askAudience() {
     // set all voting % to zero, since the below loop missed any removed answers
     percent = {'A':0,'B':0,'C':0,'D':0};
     // empirically chosen audience-competence function:
-    for (var i in remaining) percent[remaining[i]] = Math.floor(Math.random()*Math.random()*50); 
+    for (var i in remaining) percent[remaining[i]] = Math.floor(Math.random()*Math.random()*50);
     // the correct answer gets the remainder of the audience vote
     percent[correctAnswer] += 100-percent['A']-percent['B']-percent['C']-percent['D'];
     // in rare case of premature overflow of 100%, try again

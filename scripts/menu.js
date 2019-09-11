@@ -4,18 +4,6 @@ $('#video-container > div').click(function(){
   startLevel1Music();
 });
 
-// main menu music (custom loop)
-var level1Music = new Audio('audio/level-1.mp3'), level1MusicOn = false;
-function startLevel1Music() {
-  if (!level1MusicOn) {
-    setInterval(function(){
-      level1Music.currentTime = 0;
-      level1Music.play();
-    },13970);
-    level1Music.play();
-    level1MusicOn = true;
-  }
-}
 // if intro video is not skipped, the music starts automatically
 setTimeout(startLevel1Music,33000);
 

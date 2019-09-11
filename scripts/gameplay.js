@@ -11,12 +11,8 @@ var questionNum,
 ;
 
 var currentLevelMusic = level1Music,
-    currentLevel = 1,
-    level2Music = new Audio('audio/level-2.mp3');
-    level3Music = new Audio('audio/level-3.mp3');
-    wrongAnswerAudio = new Audio('audio/wrong.mp3');
-    rightAnswerAudio = new Audio('audio/right.mp3');
-    suspenseAudio = new Audio('audio/suspense.mp3');
+    currentLevel = 1
+;
 /*
 The same element is used to display every message to the user:
   'are you ready for the next question?'
@@ -28,7 +24,6 @@ and the same 'button' elements – 'next', 'quit', 'ok' etc. – are used in eac
 To ensure the correct function is called when these 'buttons' are pressed (e.g. 'quit game' is different from 'use lifeline now'), the variable 'currentMessage' keeps track of which state the message panel is in. If a 'button' is clicked, it checks the state to decide what to do.
 */
 var currentMessage;
-
 
 // when new game starts
 function reset( whichVersion ) {
@@ -147,7 +142,7 @@ function confirmLifeline( name ) {
   $('#quit').html('Ok').css('visibility','inherit');
   $('#next-question').html('Pas maintenant').css('visibility','inherit');
   switch(name) {
-    case '5050': $('#message-text').html('Voulez-vous utiliser le moat/moat ?<br/>Deux réponses fausses seront retirées'); break;
+    case '5050': $('#message-text').html("Voulez-vous utiliser le moit'/moit' ?<br/>Deux réponses fausses seront retirées"); break;
     case 'paf': $('#message-text').html('Voulez-vous appeler un ami ?'); break;
     case 'ata': $('#message-text').html('Voulez-vous l\'avis du public ?'); break;
     case 'switch': $('#message-text').html('Voulez vous l\'avis de l\'animateur ?'); break;
@@ -168,43 +163,29 @@ function finalAnswer() {
   $('.hover').attr('class','');
   $('#'+correctAnswer).attr('class','correct');
   if (selected == correctAnswer) {
-    // play soundbite
-    stopsuspense();
-    rightAnswerAudio.play();
-    setTimeout(questionSuccess,500);
+    questionSuccess();
   } else {
-    // play soundbite
-    stopsuspense();
-    wrongAnswerAudio.play();
-    setTimeout(questionFailure,500);
+    questionFailure();
   }
 }
 
 
 // when question is answered correctly
 function questionSuccess() {
+  // play soundbite
+  stopSuspense();
+  playRightAnswer();
   // update guaranteed winnings and music at milestone questions
   // also detect game finish at £1M
-  if (version == 'traditional') {
-    if (questionNum == 5) {
-      winnings = 1000;
-      startLevel2Music();
-    }
-    if (questionNum == 10) {
-      winnings = 32000;
-      startLevel3Music();
-    }
-    if (questionNum == 15) { millionaire(); return; }
+  if (questionNum < 5) {
+    startLevel1Music();
+  } else if (questionNum < 10) {
+    startLevel2Music();
+  } else if (questionNum < 15) {
+    startLevel3Music();
   } else {
-    if (questionNum == 2) {
-      winnings = 1000;
-      startLevel2Music();
-    }
-    if (questionNum == 7) {
-      winnings = 50000;
-      startLevel3Music();
-    }
-    if (questionNum == 12) { millionaire(); return; }
+    millionaire();
+    return;
   }
   // prepare next question
   questionNum++
@@ -214,6 +195,9 @@ function questionSuccess() {
 
 // when question answer is incorrect
 function questionFailure() {
+  // play soundbite
+  stopSuspense();
+  wrongAnswerAudio.play();
   // check for new high score
   if (highScore()) { newHighScore(); return; }
   // otherwise prepare & display 'you go home with £X' message
@@ -238,46 +222,6 @@ function millionaire() {
 }
 
 
-function startLevel2Music() {
-  level1Music.volume = 0;
-  setInterval(function(){
-    level2Music.currentTime = 0;
-    level2Music.play();
-  },32000);
-  level2Music.play();
-  currentLevelMusic = level2Music;
-  currentLevel = 2;
-}
-
-
-function startLevel3Music() {
-  level2Music.volume = 0;
-  setInterval(function(){
-    level3Music.currentTime = 0;
-    level3Music.play();
-  },16000);
-  level3Music.play();
-  currentLevelMusic = level3Music;
-  currentLevel = 3;
-}
-
-function stopLevel1Music() {
-  level1Music.volume = 0;
-}
-function stopLevel2Music() {
-  level2Music.volume = 0;
-}
-function stopLevel3Music() {
-  level3Music.volume = 0;
-}
-
-function suspense() {
-  suspenseAudio.play();
-}
-
-function stopsuspense() {
-  suspenseAudio.volume = 0;
-}
 // event handlers for message panel 'buttons'
 //
 // 'quit' deals with confirming lifeline use, quiting game
@@ -308,7 +252,9 @@ $('#next-question').click(function(){
       currentMessage = 'new life';
     }
     else { $('#message-board').css('visibility','hidden');
-      startQuestion(); }
+      startQuestion();
+      playStartAnswer();
+    }
   } else if (currentMessage == 'sure?') areYouReady(questionNum);
   else $('#message-board').css('visibility','hidden');
 });
@@ -339,13 +285,14 @@ $('.answer-text').mouseover(function(){
   $(this).parent().attr('class','');
 // selecting (turning orange) when clicked (unless out of time)
 }).click(function(){
-  if (!timerRunning || $(this).parent().attr('class') == 'removed') return;
+  if (!timerRunning || $(this).parent().attr('class') == 'removed'){
+    return;
+  }
   $('.chosen').attr('class','');
   $(this).parent().attr('class','chosen');
   selected = $(this).parent().attr('id');
   $('#final').attr('class','active');
-  suspenseAudio.play();
-
+  playSuspense();
 })
 
 
